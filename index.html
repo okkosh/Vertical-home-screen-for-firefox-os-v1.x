@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <title>FirefoxOS Homescreen</title>
+
+    <link rel="stylesheet" href="style/css/app.css">
+    <link rel="stylesheet" href="style/css/search.css">
+
+
+    <script defer src="js/divider.js"></script>
+    <script defer src="js/icon.js"></script>
+    <script defer src="js/dragdrop.js"></script>
+    <script defer src="js/zoom.js"></script>
+    <script defer src="js/app.js"></script>
+  </head>
+  <body>
+        <div id="search" role="button" aria-labelledby="search-input" aria-haspopup="true">
+        <form id="search-form">
+          <input id="search-input" x-inputmode="verbatim" role="presentation" placeholder="Search or enter address"  value="" dir="auto" type="text">
+         
+          </form>
+      </div>
+      <br>
+    <p id=vaguesapce></p>
+    <gaia-grid id="icons"></gaia-grid>
+  </body>
+</html>

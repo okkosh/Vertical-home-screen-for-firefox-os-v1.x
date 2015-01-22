@@ -1,0 +1,34 @@
+{
+  "name": "My Homescreen",
+  "description": "A Firefox OS v2.0 Homescreen for Firefox OS v1.2,1.3 and 1.4 ",
+  "launch_path": "/index.html#root",
+  "type": "certified",
+  "role": "homescreen",
+  "developer": {
+    "name": "Rajat Kosh",
+    "url": "https://github.com/mozilla-b2g/gaia"
+  },
+  "permissions": {
+    "webapps-manage": {},
+    "storage": {},
+     "settings": {
+      "access": "readwrite"
+    },
+     "systemXHR": {},
+    "open-remote-window": {},
+    "storage": {},
+    "geolocation": {},
+    "alarms": {},
+    "power": {}
+  },
+  "default_locale": "en-US",
+  "icons":{
+    "30":"/style/icons/HomeScreen.png",
+      "45":"/style/icons/HomeScreen_45.png",
+        "60":"/style/icons/HomeScreen_60.png",
+          "68":"/style/icons/HomeScreen_68.png"
+          },
+  "orientation": "portrait-primary",
+  "activities": {},
+  "messages": []
+}
