@@ -6,56 +6,64 @@
 (function(exports) {
 
   // For now we inject a divider every few icons for testing.
-  var tempDivideEvery = 10;
+  var tempDivideEvery = 7;
   var tempCurrent = 0;
-  // FIXME : Default Order in which Icons Should Be Placed (Permanant Saving Required)
-  const ORDER = ["Phone","Contacts","Messages","E-Mail","Camera","Browser","Gallery","Music","Video","XYZ","Settings","Marketplace","Clock","Calendar","FM-Radio","Calculator"];
-  // "XYZ" for Div
+       // FIXME : Default Order in which Icons Should Be Placed (Permanant Saving Required using Indexed DB instead of Hardcoding)
+  const ORDER = ["Phone","Contacts","Messages","E-Mail","Camera","Browser","XYZ","Gallery","Music","Video","Settings","Marketplace","Clock","Calendar","FM-Radio","Calculator"];
+        // "XYZ" for Div (Please Check the  line Number 135)
   // Hidden manifest roles that we do not show
   const HIDDEN_ROLES = ['system', 'keyboard', 'homescreen', 'search'];
 
+  
   function App() {
     this.zoom = new Zoom();
     this.dragdrop = new DragDrop();
     var container = document.getElementById('icons');
     container.addEventListener('click', this.clickIcon.bind(this));
+    
     var searchbox = document.getElementById('search');
     searchbox.onkeypress= OnSubmit;
+    
     var searchproper = document.getElementById('search-input');
-    searchproper.onfocus=hideEverything;
+    searchproper.onfocus=hideEverything; 
     searchproper.onblur=showEverything;
+    
     window.addEventListener('contextmenu', this.change.bind(this));
   }
-    function OnSubmit(e){
+  // Submitting Edit Box Fields  
+  function OnSubmit(e){
     if (e.keyCode == 13) {
         searchRelevant();
         return false;
        }
       }
+    
     function searchRelevant(){
-        // Hide Keyboard
+        // Hide Keyboard By clicking in Vague Space
         document.getElementById("vaguesapce").click();
+      // If Refresh Required During any Bug Event then, just type r:m in search
         if(document.getElementById("search-input").value=="r:m")
-        window.location.reload(false);
+           window.location.reload(false);
+      // if User Query contains http at front => A link
         else if(document.getElementById("search-input").value.search("http")==0)
-        window.open(document.getElementById("search-input").value,'_blank');
+          window.open(document.getElementById("search-input").value,'_blank');
+      // Else Append http if string is www  
         else if(document.getElementById("search-input").value.search("www.")==0)
-        window.open("http://"+document.getElementById("search-input").value,'_blank');
-        else
-        window.open("https://duckduckgo.com/?q="+(document.getElementById("search-input").value.replace(/ /g,"+")),'_blank');
+          window.open("http://"+document.getElementById("search-input").value,'_blank');
+        else // Just search what user types onto Duckduckgo
+          window.open("https://duckduckgo.com/?q="+(document.getElementById("search-input").value.replace(/ /g,"+")),'_blank');
         document.getElementById("search-input").value="";
-    }
+      }
   
-   function hideEverything(){
+  // Hides icons During User Search for unintentional launch prevention
+    function hideEverything(){
      document.getElementById('icons').style.visibility = 'hidden';
-//     document.getElementById('search').style.height = (document.getElementById('search').offsetHeight + 300) + "px";
-   }
-  
+    }
+    
+  // Shows them back on Search complete or cancel 
      function showEverything(){
      document.getElementById('icons').style.visibility = 'visible';
-//     document.getElementById('search').style.height = (document.getElementById('search').offsetHeight - 300) + "px";
-     
-   }
+    }
 
   App.prototype = {
 
@@ -77,33 +85,35 @@
     init: function() {
       var apMgr = navigator.mozApps.mgmt;
       
-      // Adding New Components To the Screen (On Installation)
+      // Adding New Components To the Screen (On Installation of new apps)
       
       apMgr.oninstall = function(event) {
-        apMgr.getAll().onsuccess = function(event) {
-        event.target.result.forEach(this.makeIcons.bind(this));
-        window.location.reload(false);
-      }.bind(this);
+         apMgr.getAll().onsuccess = function(event) {
+             event.target.result.forEach(this.makeIcons.bind(this));
+             window.location.reload(false);
+            }.bind(this);
       }.bind(this);
       
-      // Removing Components from the Screen (On Uninstall)
+      // Removing Components from the Screen (On Uninstall of any app)
       
      apMgr.onuninstall = function(event) {
        apMgr.getAll().onsuccess = function(event) {
-        event.target.result.forEach(this.makeIcons.bind(this));
-        window.location.reload(false);
-      }.bind(this);
+          event.target.result.forEach(this.makeIcons.bind(this));
+          window.location.reload(false);
+          }.bind(this);
       }.bind(this);
 
       apMgr.getAll().onsuccess = function(event) {
-        event.target.result.forEach(this.makeIcons.bind(this));
-        this.render();
-      }.bind(this);
-    },
+         event.target.result.forEach(this.makeIcons.bind(this));
+         this.render();
+       }.bind(this);
+     },
 
     /**
      * Return Search Results. Yet to come     */  
-     
+    adaptiveSearch: function(){
+      
+    },
       
     /**
      * Creates icons for an app based on hidden roles and entry points.
@@ -126,30 +136,35 @@
         if (tempCurrent >= tempDivideEvery) {
           this.items.push(new Divider());
           tempCurrent = 0;
-          tempDivideEvery= 6;
+          if(tempDivideEvery == 7) // First Part of Screen Always Contain 6 Elements
+             tempDivideEvery= 9; // Next Part Always Contain 9 Elements
+          else
+             tempDivideEvery= 5; // Rest 5
         }
         
         this.items.push(icon);
         this.icons[icon.identifier] = icon;
-        var total = this.items.length;
-        if(total >= 16)
+        
+        // Align Icons aacording to Defined ORDER above (Can Be Improved Using Good Search Algo)
+        var total = this.items.length; // total icons
+        if(total >= 16) // 16 apps are common in every Firefox OS Device (including the Divider)
           {
             for(i=0;i<total;i++){
-              if(ORDER.indexOf(this.items[i].name)>=0)
+              if(ORDER.indexOf(this.items[i].name)>=0) // if Any APP found in our defined ORDER
                 {
-                  swap(i,ORDER.indexOf(this.items[i].name),this.items);
+                  swap(i,ORDER.indexOf(this.items[i].name),this.items); //Swap the App with the ORDER no. in which it is defined. 
                   //console.log(ORDER.indexOf(this.items[i].name));
                 }
                 
             }
           }
         
+        // Swapping function for Swapping the order
         function swap(a,b,items){
           var temp = items[a];
           items[a] = items[b];
           items[b] = temp;
-        }
-        
+        }  
       }
 
       if (app.manifest.entry_points) {
@@ -244,6 +259,7 @@
         }
       }, this);
     },
+      
     /**
      * Changes Wallpaper.
      */
@@ -256,19 +272,17 @@
       var container = e.target;
       var identifier = container.dataset.identifier;
       var icon = this.icons[identifier];
-
+      
+      // if user holds the icon not background then return
       if (icon) {
         return;
       }
       
-      // Ask for the locked content key first, because if it does not exist
-      // we know there is no locked content on the phone and we don't have
-      // to show the Locked Content app in the activity request.
+      // Else Start a Pick Activity
         var activity = new MozActivity({
           name: 'pick',
           data: {
             type: ['wallpaper', 'image/*'],
-            // XXX: This will not work with Desktop Fx / Simulator.
             width: Math.ceil(window.screen.width * window.devicePixelRatio),
             height: Math.ceil(window.screen.height * window.devicePixelRatio)
           }
@@ -276,7 +290,6 @@
 
         activity.onsuccess = function onWallpaperSuccess() {
           var blob = activity.result.blob;
-
           if (!blob) {
             return;
           } 
@@ -294,6 +307,7 @@
         };
     },
     
+      
     /**
      * Launches an app.
      */

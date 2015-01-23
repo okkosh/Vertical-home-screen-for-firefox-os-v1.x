@@ -135,13 +135,13 @@
       if (this.noRender) {
         return;
       }
-      this.transform(x, y, app.zoom.percent,this.descriptor.name);
+      this.transform(x, y, app.zoom.percent); //,this.descriptor.name);
     },
 
     /**
      * Positions and scales an icon.
      */
-    transform: function(x, y, scale,name) {
+    transform: function(x, y, scale){ //,name) {
       scale = scale || 1;
      /* var value = "";
       asyncStorage.getItem('appOrder', function(value){
@@ -154,7 +154,8 @@
           }
 		  else
         {*/
-           this.tile.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
+           this.tile.style.transform = 
+             'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
          /*  asyncStorage.setItem(name+'x',x, function() {
      console.log('new value stored');
    });

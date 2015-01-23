@@ -7,7 +7,6 @@ html, body, .icons {
   padding: 0;
   margin: 0;
   background-repeat: no-repeat;
-  background-size: 100% auto;
   background-attachment:fixed;
 }
 
@@ -48,7 +47,7 @@ html, body, .icons {
 .divider {
   position: absolute;
   height: 0.2rem;
-  margin: 2.6rem 6rem;
+  margin: 2.4rem 6rem;
   background: rgba(255, 255, 255, 0.8);
   width: calc(100% - 12rem);
   transition: transform 500ms ease;

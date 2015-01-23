@@ -20,9 +20,9 @@
     pixelHeight: 70,
 
     /**
-     * Width in grid units for each divider.
+     * Width in grid units for each divider (Must Be Four).
      */
-    gridWidth: 3,
+    gridWidth: 4,
 
     scale: 1,
 
