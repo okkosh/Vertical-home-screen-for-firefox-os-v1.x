@@ -24,6 +24,9 @@
     var searchbox = document.getElementById('search');
     searchbox.onkeypress= OnSubmit;
     
+    // Clicking the search area should focus the search field
+    searchbox.onclick=focusSearchInput;
+    
     var searchproper = document.getElementById('search-input');
     searchproper.onfocus=hideEverything; 
     searchproper.onblur=showEverything;
@@ -55,11 +58,15 @@
         document.getElementById("search-input").value="";
       }
   
+   function focusSearchInput(){
+     document.getElementById('search-input').focus();
+   }
+  
   // Hides icons During User Search for unintentional launch prevention
     function hideEverything(){
      document.getElementById('icons').style.visibility = 'hidden';
-    }
-    
+    }  
+  
   // Shows them back on Search complete or cancel 
      function showEverything(){
      document.getElementById('icons').style.visibility = 'visible';
