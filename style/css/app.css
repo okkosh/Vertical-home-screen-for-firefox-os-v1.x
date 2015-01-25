@@ -37,11 +37,43 @@ html, body, .icons {
   pointer-events: none;
   color: #fff;
   font-size: 1.4rem;
-  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .icon.active {
   transition: none;
+}
+
+span.options{
+  position: absolute;
+  top: .1rem;
+  left: .5rem;
+  width: calc(100% - .5rem);
+  height: 2.5rem;
+  z-index: 15; /* So the Delete button will be above the collections' circle */
+  background: url(../icons/remove.png) no-repeat left top / 2.4rem;
+  visibility: hidden
+}
+
+@-moz-keyframes shake {
+  0% { -moz-transform: scale(1); }
+  25% { -moz-transform: scale(0.90); }
+  50% { -moz-transform: scale(1); }
+  75% { -moz-transform: scale(0.90); }
+  100% { -moz-transform: scale(1); }
+}
+
+@-moz-keyframes none {}
+
+
+.icon[removeable="true"] > .options{
+    visibility: visible;
+  -moz-animation-name: shake;
+  -moz-animation-duration: .8s;
+  -moz-transform-origin: 10% 10%;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: ease-out;
+
 }
 
 .divider {

@@ -83,37 +83,42 @@
         tile.className = 'icon';
         tile.dataset.identifier = this.identifier;
         if(this.descriptor.name == "Usage")
-           tile.style.backgroundImage = "url('icons/costcontrol_126.png')";  
+           tile.style.backgroundImage = "url('icons/costcontrol_84.png')";  
         else if(this.descriptor.name == "Phone")
-           tile.style.backgroundImage = "url('icons/dialer_126.png')"; 
+           tile.style.backgroundImage = "url('icons/dialer_84.png')"; 
         else if(this.descriptor.name == "Contacts")
-           tile.style.backgroundImage = "url('icons/contacts_126.png')"; 
+           tile.style.backgroundImage = "url('icons/contacts_84.png')"; 
         else if(this.descriptor.name == "Settings")
-           tile.style.backgroundImage = "url('icons/settings_126.png')";
+           tile.style.backgroundImage = "url('icons/settings_84.png')";
         else if(this.descriptor.name == "Video")
-           tile.style.backgroundImage = "url('icons/video_126.png')"; 
+           tile.style.backgroundImage = "url('icons/video_84.png')"; 
         else if(this.descriptor.name == "Camera")
-           tile.style.backgroundImage = "url('icons/camera_126.png')";
+           tile.style.backgroundImage = "url('icons/camera_84.png')";
         else if(this.descriptor.name == "Clock")
-           tile.style.backgroundImage = "url('icons/clock_126.png')";
+           tile.style.backgroundImage = "url('icons/clock_84.png')";
         else if(this.descriptor.name == "Music")
-           tile.style.backgroundImage = "url('icons/music_126.png')"; 
+           tile.style.backgroundImage = "url('icons/music_84.png')"; 
         else if(this.descriptor.name == "Gallery")
-           tile.style.backgroundImage = "url('icons/gallery_126.png')"; 
+           tile.style.backgroundImage = "url('icons/gallery_84.png')"; 
         else if(this.descriptor.name == "Calendar")
-           tile.style.backgroundImage = "url('icons/calendar_126.png')"; 
+           tile.style.backgroundImage = "url('icons/calendar_84.png')"; 
         else if(this.descriptor.name == "Messages")
-           tile.style.backgroundImage = "url('icons/sms_126.png')"; 
+           tile.style.backgroundImage = "url('icons/sms_84.png')"; 
         else if(this.descriptor.name == "FM Radio")
-           tile.style.backgroundImage = "url('icons/fm_126.png')";
+           tile.style.backgroundImage = "url('icons/fm_84.png')";
         else if(this.descriptor.name == "E-Mail")
-           tile.style.backgroundImage = "url('icons/email_126.png')";
+           tile.style.backgroundImage = "url('icons/email_84.png')";
+        else if(this.descriptor.name == "Marketplace")
+           tile.style.backgroundImage = "url('icons/90.png')";
         else if(this.icon.search("http") == 0)   // Check if icon is already containing the address
            tile.style.backgroundImage = 'url(' + this.icon + ')';
         else                                // if no, then src = origin/icon
            tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
           
      // console.log(this.app.origin + this.icon);
+        var removeico = document.createElement('span');
+        removeico.className = 'options';
+        tile.appendChild(removeico);  
         var nameEl = document.createElement('span');
         nameEl.className = 'title';
         nameEl.textContent = this.name;

@@ -2,7 +2,7 @@
 
 (function(exports) {
 
-  const activateDelay = 600;
+  const activateDelay = 300;
 
   const activeScaleAdjust = 0.4;
 
@@ -34,16 +34,21 @@
       this.active = true;
       container.classList.add('edit-mode');
       this.target.classList.add('active');
-
+        
       // Testing with some extra offset (20)
       this.xAdjust = app.zoom.gridItemHeight / 2 + 20;
       this.yAdjust = app.zoom.gridItemWidth / 2 + 80;
-
       // Make the icon larger
       this.icon.transform(
         e.touches[0].pageX - this.xAdjust,
         e.touches[0].pageY - this.yAdjust,
         this.icon.scale + activeScaleAdjust);
+        
+       var deleteIcon = document.getElementsByClassName('icon');
+        
+       for (var k = 0; k < deleteIcon.length; k++) {
+           deleteIcon[k].setAttribute('removeable','true');
+             }
     },
 
     /**
@@ -114,6 +119,7 @@
         this.icon.noRender = true;
         app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
         app.render();
+          //       document.getElementsByClassName('options').style.visible = 'none';
        // asyncStorage.getItem('Usage', function(myElement){
        //    console.log( myElement.xp + 'px,' + myElement.yp + 'px'); 
         //     });
@@ -200,6 +206,7 @@
             this.currentTouch = null;
             this.active = false;
             container.classList.remove('edit-mode');
+            
 
             delete this.icon.noRender;
             this.icon = null;

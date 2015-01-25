@@ -10,7 +10,7 @@
   var tempCurrent = 0;
        // FIXME : Default Order in which Icons Should Be Placed (Permanant Saving Required using Indexed DB instead of Hardcoding)
   const ORDER = ["Phone","Contacts","Messages","E-Mail","Camera","Browser","XYZ","Gallery","Music","Video","Settings","Marketplace","Clock","Calendar","FM-Radio","Calculator"];
-        // "XYZ" for Div (Please Check the  line Number 135)
+        // "XYZ" for Div (Please Check the  line Number 151)
   // Hidden manifest roles that we do not show
   const HIDDEN_ROLES = ['system', 'keyboard', 'homescreen', 'search'];
 
@@ -20,6 +20,7 @@
     this.dragdrop = new DragDrop();
     var container = document.getElementById('icons');
     container.addEventListener('click', this.clickIcon.bind(this));
+      document.onclick = removeDeleteIcons;
     
     var searchbox = document.getElementById('search');
     searchbox.onkeypress= OnSubmit;
@@ -31,8 +32,9 @@
     searchproper.onfocus=hideEverything; 
     searchproper.onblur=showEverything;
     
-    window.addEventListener('contextmenu', this.change.bind(this));
+    window.addEventListener('contextmenu', this.changeBg.bind(this));
   }
+    
   // Submitting Edit Box Fields  
   function OnSubmit(e){
     if (e.keyCode == 13) {
@@ -40,25 +42,27 @@
         return false;
        }
       }
+
     
     function searchRelevant(){
         // Hide Keyboard By clicking in Vague Space
         document.getElementById("vaguesapce").click();
       // If Refresh Required During any Bug Event then, just type r:m in search
-        if(document.getElementById("search-input").value=="r:m")
-           window.location.reload(false);
+        if(!document.getElementById("search-input").value=="r:m"){
+            window.location.reload(false);
+        }   
       // if User Query contains http at front => A link
-        else if(document.getElementById("search-input").value.search("http")==0)
-          window.open(document.getElementById("search-input").value,'_blank');
-      // Else Append http if string is www  
-        else if(document.getElementById("search-input").value.search("www.")==0)
-          window.open("http://"+document.getElementById("search-input").value,'_blank');
-        else // Just search what user types onto Duckduckgo
+        else if(!document.getElementById("search-input").value.search("http")){
+          window.open(document.getElementById("search-input").value,'_blank');            
+        }// Else Append http if string is www  
+        else if(document.getElementById("search-input").value.search("www.")==0){
+          window.open("http://"+document.getElementById("search-input").value,'_blank');  
+        }else // Just search what user types onto Duckduckgo
           window.open("https://duckduckgo.com/?q="+(document.getElementById("search-input").value.replace(/ /g,"+")),'_blank');
-        document.getElementById("search-input").value="";
+              document.getElementById("search-input").value="";
       }
   
-   function focusSearchInput(){
+    function focusSearchInput(){
      document.getElementById('search-input').focus();
    }
   
@@ -68,10 +72,17 @@
     }  
   
   // Shows them back on Search complete or cancel 
-     function showEverything(){
+    function showEverything(){
      document.getElementById('icons').style.visibility = 'visible';
     }
 
+    function removeDeleteIcons(){
+       var removeIcon = document.getElementsByClassName('icon');
+       for (var k = 0; k < removeIcon.length; k++) {
+              removeIcon[k].setAttribute('removeable','false');
+             } 
+    }
+    
   App.prototype = {
 
     /**
@@ -182,7 +193,7 @@
         eachIcon.call(this, new Icon(app));
       }
     },
-
+   
     /**
      * Scrubs the list of items, removing empty sections.
      */
@@ -271,7 +282,7 @@
      * Changes Wallpaper.
      */
     
-    change: function(e) {
+    changeBg: function(e) {
        
       if (this.canceled)
          return;
@@ -319,6 +330,7 @@
      * Launches an app.
      */
     clickIcon: function(e) {
+        
       var container = e.target;
       var identifier = container.dataset.identifier;
       var icon = this.icons[identifier];
