@@ -10,6 +10,10 @@ html, body, .icons {
   background-attachment:fixed;
 }
 
+#scrollable{
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .icons {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -55,25 +59,8 @@ span.options{
   visibility: hidden
 }
 
-@-moz-keyframes shake {
-  0% { -moz-transform: scale(1); }
-  25% { -moz-transform: scale(0.90); }
-  50% { -moz-transform: scale(1); }
-  75% { -moz-transform: scale(0.90); }
-  100% { -moz-transform: scale(1); }
-}
-
-@-moz-keyframes none {}
-
-
 .icon[removeable="true"] > .options{
     visibility: visible;
-  -moz-animation-name: shake;
-  -moz-animation-duration: .8s;
-  -moz-transform-origin: 10% 10%;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-timing-function: ease-out;
-
 }
 
 .divider {

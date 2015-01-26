@@ -7,8 +7,8 @@
 
     <link rel="stylesheet" href="style/css/app.css">
     <link rel="stylesheet" href="style/css/search.css">
-    <link rel="stylesheet" type="text/css" href="shared/style/confirm.css">
-
+   <link rel="stylesheet" href="style/css/header.css">
+    <link rel="stylesheet" href="style/css/headers.css">
     <script defer src="js/divider.js"></script>
     <script defer src="js/icon.js"></script>
     <script defer src="js/dragdrop.js"></script>
@@ -16,7 +16,16 @@
     <script defer src="js/app.js"></script>
   </head>
   <body>
-        
+    <div id="curtain"></div>
+
+    <section id="edit-header" class="skin-dark" role="region">
+      <header>
+        <menu type="toolbar"><a href="#" data-l10n-id="edit-done" id="exit-edit-mode">Done</a></menu>
+        <h1 data-l10n-id="edit-mode">Edit</h1>
+      </header>
+    </section>
+      
+      <div id="scrollable">    
       <div id="search" role="button" aria-labelledby="search-input" aria-haspopup="true">
         <form id="search-form">
           <input id="search-input" x-inputmode="verbatim" role="presentation" placeholder="Search or enter address"  value="" dir="auto" type="text"> 
@@ -25,5 +34,6 @@
       <br>
     <p id=vaguesapce></p>
     <div id="icons"></div>
+      </div>
   </body>
 </html>

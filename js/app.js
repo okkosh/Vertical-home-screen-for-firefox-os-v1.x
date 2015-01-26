@@ -20,8 +20,9 @@
     this.dragdrop = new DragDrop();
     var container = document.getElementById('icons');
     container.addEventListener('click', this.clickIcon.bind(this));
-      document.onclick = removeDeleteIcons;
     
+    document.getElementById('exit-edit-mode').onclick = removeDeleteIcons;
+   // document.getElementById('scroll').addEventListener('scroll',this);
     var searchbox = document.getElementById('search');
     searchbox.onkeypress= OnSubmit;
     
@@ -46,7 +47,7 @@
     
     function searchRelevant(){
         // Hide Keyboard By clicking in Vague Space
-        document.getElementById("vaguesapce").click();
+       document.getElementById("vaguesapce").click();
       // If Refresh Required During any Bug Event then, just type r:m in search
         if(!document.getElementById("search-input").value=="r:m"){
             window.location.reload(false);
@@ -80,7 +81,9 @@
        var removeIcon = document.getElementsByClassName('icon');
        for (var k = 0; k < removeIcon.length; k++) {
               removeIcon[k].setAttribute('removeable','false');
-             } 
+             }
+         document.getElementById('curtain').setAttribute('isopen','false');
+         document.getElementById('search').style.visibility = 'visible';
     }
     
   App.prototype = {
@@ -284,7 +287,7 @@
     
     changeBg: function(e) {
        
-      if (this.canceled)
+      if (this.canceled || document.getElementById('curtain').getAttribute('isopen') == 'true')
          return;
       e.preventDefault();
       var container = e.target;
@@ -335,7 +338,7 @@
       var identifier = container.dataset.identifier;
       var icon = this.icons[identifier];
 
-      if (!icon) {
+      if (!icon ||  document.getElementById('curtain').getAttribute('isopen') == 'true') {
         return;
       }
 

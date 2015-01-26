@@ -45,10 +45,14 @@
         this.icon.scale + activeScaleAdjust);
         
        var deleteIcon = document.getElementsByClassName('icon');
-        
-       for (var k = 0; k < deleteIcon.length; k++) {
-           deleteIcon[k].setAttribute('removeable','true');
+       //var uninstallIcon = document.getElementsByClassName('options');
+       
+        for (var k = 0; k < deleteIcon.length; k++) {
+              deleteIcon[k].setAttribute('removeable','true');
+              //uninstallIcon[k].onclick = uninstallBegins;
              }
+        document.getElementById('curtain').setAttribute('isopen','true');
+        document.getElementById('search').style.visibility = 'hidden';
     },
 
     /**
