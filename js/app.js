@@ -27,7 +27,6 @@
     // Clicking the search area should focus the search field
     searchbox.onclick=focusSearchInput;
     
-    document.onclick = removeDeleteIcons;
     document.getElementById('exit-edit-mode').onclick = removeDeleteIcons;
     var searchproper = document.getElementById('search-input');
     searchproper.onfocus=hideEverything; 
@@ -78,9 +77,6 @@
     }
 
     function removeDeleteIcons(){
-      var isopen = document.getElementById('curtain').getAttribute('isopen');
-      if(isopen == 'false')
-        return;
        var removeIcon = document.getElementsByClassName('icon');
        for (var k = 0; k < removeIcon.length; k++) {
               removeIcon[k].setAttribute('removeable','false');
@@ -339,13 +335,11 @@
         
       var container = e.target;
       var identifier = container.dataset.identifier;
-      var icon = this.icons[identifier];j
+      var icon = this.icons[identifier];
 
       if (!icon ||  document.getElementById('curtain').getAttribute('isopen') == 'true') {
-        
         return;
       }
-
       icon.launch();
     }
   };

@@ -2,9 +2,9 @@
 
 (function(exports) {
 
-  const activateDelay = 300;
+  const activateDelay = 600;
 
-  const activeScaleAdjust = 0.4;
+  const activeScaleAdjust = 0.3;
 
   var container = document.getElementById('icons');
 
