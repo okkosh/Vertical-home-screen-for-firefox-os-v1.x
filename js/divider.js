@@ -46,9 +46,9 @@
 
       this.itemIndex = itemIndex;
       this.y = y;
-      var scrollableHeight = y+app.zoom.gridItemHeight; // Height of Divider
-     var scrollarea = document.getElementById('scrollable');
-           scrollarea.style.height =''+scrollableHeight+'px'
+   //   var scrollableHeight = y+app.zoom.gridItemHeight; // Height of Divider
+   //  var scrollarea = document.getElementById('scrollable');
+    //       scrollarea.style.height =''+scrollableHeight+'px'
 
     },
 

@@ -83,33 +83,33 @@
         tile.className = 'icon';
         tile.dataset.identifier = this.identifier;
         if(this.descriptor.name == "Usage")
-           tile.style.backgroundImage = "url('icons/costcontrol_84.png')";  
+           tile.style.backgroundImage = "url('icons/costcontrol_64.png')";  
         else if(this.descriptor.name == "Phone")
-           tile.style.backgroundImage = "url('icons/dialer_84.png')"; 
+           tile.style.backgroundImage = "url('icons/dialer_64.png')"; 
         else if(this.descriptor.name == "Contacts")
-           tile.style.backgroundImage = "url('icons/contacts_84.png')"; 
+           tile.style.backgroundImage = "url('icons/contacts_64.png')"; 
         else if(this.descriptor.name == "Settings")
-           tile.style.backgroundImage = "url('icons/settings_84.png')";
+           tile.style.backgroundImage = "url('icons/settings_64.png')";
         else if(this.descriptor.name == "Video")
-           tile.style.backgroundImage = "url('icons/video_84.png')"; 
+           tile.style.backgroundImage = "url('icons/video_64.png')"; 
         else if(this.descriptor.name == "Camera")
-           tile.style.backgroundImage = "url('icons/camera_84.png')";
+           tile.style.backgroundImage = "url('icons/camera_64.png')";
         else if(this.descriptor.name == "Clock")
-           tile.style.backgroundImage = "url('icons/clock_84.png')";
+           tile.style.backgroundImage = "url('icons/clock_64.png')";
         else if(this.descriptor.name == "Music")
-           tile.style.backgroundImage = "url('icons/music_84.png')"; 
+           tile.style.backgroundImage = "url('icons/music_64.png')"; 
         else if(this.descriptor.name == "Gallery")
-           tile.style.backgroundImage = "url('icons/gallery_84.png')"; 
+           tile.style.backgroundImage = "url('icons/gallery_64.png')"; 
         else if(this.descriptor.name == "Calendar")
-           tile.style.backgroundImage = "url('icons/calendar_84.png')"; 
+           tile.style.backgroundImage = "url('icons/calendar_64.png')"; 
         else if(this.descriptor.name == "Messages")
-           tile.style.backgroundImage = "url('icons/sms_84.png')"; 
+           tile.style.backgroundImage = "url('icons/sms_64.png')"; 
         else if(this.descriptor.name == "FM Radio")
-           tile.style.backgroundImage = "url('icons/fm_84.png')";
+           tile.style.backgroundImage = "url('icons/fm_64.png')";
         else if(this.descriptor.name == "E-Mail")
-           tile.style.backgroundImage = "url('icons/email_84.png')";
+           tile.style.backgroundImage = "url('icons/email_64.png')";
         else if(this.descriptor.name == "Marketplace")
-           tile.style.backgroundImage = "url('icons/90.png')";
+           tile.style.backgroundImage = "url('icons/64.png')";
         else if(this.icon.search("http") == 0)   // Check if icon is already containing the address
            tile.style.backgroundImage = 'url(' + this.icon + ')';
         else                                // if no, then src = origin/icon
@@ -142,6 +142,7 @@
       }
       this.transform(x, y, app.zoom.percent); //,this.descriptor.name);
     },
+
 
     /**
      * Positions and scales an icon.

@@ -20,8 +20,6 @@
     this.dragdrop = new DragDrop();
     var container = document.getElementById('icons');
     container.addEventListener('click', this.clickIcon.bind(this));
-    
-    document.getElementById('exit-edit-mode').onclick = removeDeleteIcons;
    // document.getElementById('scroll').addEventListener('scroll',this);
     var searchbox = document.getElementById('search');
     searchbox.onkeypress= OnSubmit;
@@ -29,6 +27,7 @@
     // Clicking the search area should focus the search field
     searchbox.onclick=focusSearchInput;
     
+    document.getElementById('exit-edit-mode').onclick = removeDeleteIcons;
     var searchproper = document.getElementById('search-input');
     searchproper.onfocus=hideEverything; 
     searchproper.onblur=showEverything;
@@ -42,25 +41,25 @@
         searchRelevant();
         return false;
        }
-      }
+     }
 
     
     function searchRelevant(){
         // Hide Keyboard By clicking in Vague Space
        document.getElementById("vaguesapce").click();
+      
+      var searchQuery = document.getElementById("search-input").value;
       // If Refresh Required During any Bug Event then, just type r:m in search
-        if(!document.getElementById("search-input").value=="r:m"){
-            window.location.reload(false);
-        }   
-      // if User Query contains http at front => A link
-        else if(!document.getElementById("search-input").value.search("http")){
-          window.open(document.getElementById("search-input").value,'_blank');            
-        }// Else Append http if string is www  
-        else if(document.getElementById("search-input").value.search("www.")==0){
-          window.open("http://"+document.getElementById("search-input").value,'_blank');  
+        if(searchQuery == "r:m"){
+          window.location.reload(false);
+        }else if(searchQuery.search("http")==0){       // if User Query contains http at front => A link
+          window.open(searchQuery);            
+        }else if(searchQuery.search("www.")==0){        // Else Append http if string is www 
+          window.open("http://"+searchQuery);  
         }else // Just search what user types onto Duckduckgo
-          window.open("https://duckduckgo.com/?q="+(document.getElementById("search-input").value.replace(/ /g,"+")),'_blank');
+            window.open("https://duckduckgo.com/?q="+(searchQuery.replace(/ /g,"+")), '_blank');
               document.getElementById("search-input").value="";
+      
       }
   
     function focusSearchInput(){
@@ -255,7 +254,7 @@
         x = 0;
         y++;
       }
-
+     
       this.items.forEach(function(item, idx) {
 
         // If the item would go over the boundary before rendering,
@@ -271,7 +270,7 @@
           x: x,
           y: y
         }, idx);
-      
+     
         // Increment the x-step by the sizing of the item.
         // If we go over the current boundary, reset it, and step the y-axis.
         x += item.gridWidth;
@@ -341,7 +340,6 @@
       if (!icon ||  document.getElementById('curtain').getAttribute('isopen') == 'true') {
         return;
       }
-
       icon.launch();
     }
   };
