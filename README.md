@@ -1,6 +1,6 @@
 # Firefox OS Vertical Homescreen for v1.x
 
-Prototype of a firefox OS v2.0 Vertical Homescreen for  Firefox OS v1.2, 1.3 and 1.4.
+Prototype of a firefox OS v2.0 Vertical Homescreen for  Firefox OS v1.2, 1.3 and 1.4 Tarako (Low-RAM) Devices.
 (Modified version of Gaia Homescreen 2.0 )
 
 ![2015-01-26-17-21-10](https://cloud.githubusercontent.com/assets/8279954/5899374/195e2c82-a580-11e4-9135-14bef3f5039d.png)
@@ -13,9 +13,9 @@ Homescreens are certified apps, so you will need to either build FirefoxOS or In
 
 Steps For Building :-
 
-1 - Clone this repo into your gaia checkout:
+1 - Clone this repo branch Tarako-devices into your gaia checkout:
 
-git clone https://github.com/ErEXON/Vertical-home-screen-for-firefox-os-v1.x.git apps/firefoxos-vertical-home
+git clone -b tarako-devices https://github.com/ErEXON/Vertical-home-screen-for-firefox-os-v1.x.git apps/my-homescreen
 
 2 - Reset your device to install the homescreen:
 
