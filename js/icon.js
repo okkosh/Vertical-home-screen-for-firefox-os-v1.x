@@ -143,6 +143,7 @@
       this.transform(x, y, app.zoom.percent); //,this.descriptor.name);
     },
 
+
     /**
      * Positions and scales an icon.
      */
