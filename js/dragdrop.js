@@ -122,11 +122,16 @@
       if (foundIndex !== myIndex) {
         this.icon.noRender = true;
         app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
+        var myStringArray = [];
+          for(var xyz in app.items)
+              {
+               if(app.items[xyz].name == undefined)
+                 myStringArray.push("-Divider-");
+                else
+                 myStringArray.push(app.items[xyz].name);
+              }
+          asyncStorage.setItem('MyHomScn',myStringArray);
         app.render();
-          //       document.getElementsByClassName('options').style.visible = 'none';
-       // asyncStorage.getItem('Usage', function(myElement){
-       //    console.log( myElement.xp + 'px,' + myElement.yp + 'px'); 
-        //     });
       }
     },
 

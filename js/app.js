@@ -6,28 +6,27 @@
 (function(exports) {
 
   // For now we inject a divider every few icons for testing.
-  var tempDivideEvery = 7;
-  var tempCurrent = 0;
-       // FIXME : Default Order in which Icons Should Be Placed (Permanant Saving Required using Indexed DB instead of Hardcoding)
-  const ORDER = ["Phone","Contacts","Messages","E-Mail","Camera","Browser","XYZ","Gallery","Music","Video","Settings","Marketplace","Clock","Calendar","FM-Radio","Calculator"];
-        // "XYZ" for Div (Please Check the  line Number 151)
+    var totalDividers = 0;
+    var currentIco = 0;
+    var ORDER = ["Phone","Contacts","Messages","E-Mail","-Divider-","Camera","Browser","Gallery","-Divider-","Music","Video","Settings","Marketplace","Clock","Calendar","FM-Radio","Usage","-Divider-"];
   // Hidden manifest roles that we do not show
-  const HIDDEN_ROLES = ['system', 'keyboard', 'homescreen', 'search'];
+    const HIDDEN_ROLES = ['system', 'keyboard', 'homescreen', 'search'];
 
   
   function App() {
+    console.log('In App()');
     this.zoom = new Zoom();
     this.dragdrop = new DragDrop();
     var container = document.getElementById('icons');
     container.addEventListener('click', this.clickIcon.bind(this));
-   // document.getElementById('scroll').addEventListener('scroll',this);
+     
     var searchbox = document.getElementById('search');
     searchbox.onkeypress= OnSubmit;
+    searchbox.onclick=focusSearchInput;     // Clicking the search area should focus the search field
     
-    // Clicking the search area should focus the search field
-    searchbox.onclick=focusSearchInput;
+    var doneButton = document.getElementById('exit-edit-mode');
+    doneButton.addEventListener('click', this.arrangeStopped.bind(this));
     
-    document.getElementById('exit-edit-mode').onclick = removeDeleteIcons;
     var searchproper = document.getElementById('search-input');
     searchproper.onfocus=hideEverything; 
     searchproper.onblur=showEverything;
@@ -35,55 +34,6 @@
     window.addEventListener('contextmenu', this.changeBg.bind(this));
   }
     
-  // Submitting Edit Box Fields  
-  function OnSubmit(e){
-    if (e.keyCode == 13) {
-        searchRelevant();
-        return false;
-       }
-     }
-
-    
-    function searchRelevant(){
-        // Hide Keyboard By clicking in Vague Space
-       document.getElementById("vaguesapce").click();
-      
-      var searchQuery = document.getElementById("search-input").value;
-      // If Refresh Required During any Bug Event then, just type r:m in search
-        if(searchQuery == "r:m"){
-          window.location.reload(false);
-        }else if(searchQuery.search("http")==0){       // if User Query contains http at front => A link
-          window.open(searchQuery);            
-        }else if(searchQuery.search("www.")==0){        // Else Append http if string is www 
-          window.open("http://"+searchQuery);  
-        }else // Just search what user types onto Duckduckgo
-            window.open("https://duckduckgo.com/?q="+(searchQuery.replace(/ /g,"+")), '_blank');
-              document.getElementById("search-input").value="";
-      
-      }
-  
-    function focusSearchInput(){
-     document.getElementById('search-input').focus();
-   }
-  
-  // Hides icons During User Search for unintentional launch prevention
-    function hideEverything(){
-     document.getElementById('icons').style.visibility = 'hidden';
-    }  
-  
-  // Shows them back on Search complete or cancel 
-    function showEverything(){
-     document.getElementById('icons').style.visibility = 'visible';
-    }
-
-    function removeDeleteIcons(){
-       var removeIcon = document.getElementsByClassName('icon');
-       for (var k = 0; k < removeIcon.length; k++) {
-              removeIcon[k].setAttribute('removeable','false');
-             }
-         document.getElementById('curtain').setAttribute('isopen','false');
-         document.getElementById('search').style.visibility = 'visible';
-    }
     
   App.prototype = {
 
@@ -135,7 +85,7 @@
       
     },
       
-    /**
+   /**
      * Creates icons for an app based on hidden roles and entry points.
      */
     makeIcons: function(app) {
@@ -144,55 +94,52 @@
       }
 
       function eachIcon(icon) {
-        /* jshint validthis:true */
-
         // If there is no icon entry, do not push it onto items.
         if (!icon.icon) {
           return;
         }
-
-        // FIXME: Remove after we have real divider insertion/remembering.
-        tempCurrent++;
-        if (tempCurrent >= tempDivideEvery) {
-          this.items.push(new Divider());
-          tempCurrent = 0;
-          if(tempDivideEvery == 7) // First Part of Screen Always Contain 6 Elements
-             tempDivideEvery= 9; // Next Part Always Contain 9 Elements
-          else
-             tempDivideEvery= 5; // Rest 5
-        }
         
-        this.items.push(icon);
+          this.items.push(icon);
+         
         this.icons[icon.identifier] = icon;
-        
-        // Align Icons aacording to Defined ORDER above (Can Be Improved Using Good Search Algo)
-        var total = this.items.length; // total icons
-        if(total >= 16) // 16 apps are common in every Firefox OS Device (including the Divider)
-          {
-            for(i=0;i<total;i++){
-              if(ORDER.indexOf(this.items[i].name)>=0) // if Any APP found in our defined ORDER
-                {
-                  swap(i,ORDER.indexOf(this.items[i].name),this.items); //Swap the App with the ORDER no. in which it is defined. 
-                  //console.log(ORDER.indexOf(this.items[i].name));
-                }
-                
-            }
-          }
-        
-        // Swapping function for Swapping the order
-        function swap(a,b,items){
-          var temp = items[a];
-          items[a] = items[b];
-          items[b] = temp;
-        }  
-      }
 
+      }
+     
       if (app.manifest.entry_points) {
-        for (var i in app.manifest.entry_points) {
-          eachIcon.call(this, new Icon(app, i));
+        for (var i in app.manifest.entry_points){
+          eachIcon.call(this, new Icon(app, i)); // Set the icon
+          if(ORDER[currentIco]==='-Divider-'){  // Check if ORDER states that there should be a Divider in Here
+            totalDividers++; // Increase the no. of dividers
+             this.items.splice(currentIco,0,new Divider()); //Insert the divider
+          }
+            currentIco++;
         }
-      } else {
+      } else {  // if app is not included in manifest entry point 
         eachIcon.call(this, new Icon(app));
+           if(ORDER[currentIco]==='-Divider-'){ // Same as Above
+             totalDividers++;
+             this.items.splice(currentIco,0,new Divider());
+          }
+        currentIco++;
+      }
+      
+       var totalItems = currentIco+totalDividers-1; // Total no of items including dividers
+      
+      // This Algorithm can be improved Using some good sorting amd swapping Algorithm
+      if(totalItems == (ORDER.length)){  // if this is the last entry (of ORDER Array)
+        for(var k=0;k<ORDER.length;k++){  
+          if((ORDER[k]!='-Divider-') && (ORDER[k]!==undefined)){ //Ignore Divider order (Because they are already sorted above while splicing)
+             for(var l=0;l<this.items.length;l++){ 
+               if(ORDER[k]==this.items[l].name){ // Check if any entry between ORDER and items Matches 
+                  swap(l,k,this.items); // Swap on Match
+              }
+            }  
+          }
+        }
+      }
+      
+       function swap(a,b,itemToSwap){
+        itemToSwap[a] = itemToSwap.splice(b, 1, itemToSwap[a])[0];
       }
     },
    
@@ -202,7 +149,7 @@
     cleanItems: function() {
       var appCount = 0;
       var toRemove = [];
-
+     
       this.items.forEach(function(item, idx) {
         if (item instanceof Divider) {
           if (appCount === 0) {
@@ -234,9 +181,8 @@
      * on the grid.
      */
     render: function() {
-
+      
       app.cleanItems();
-
       // Reset offset steps
       this.zoom.offsetY = 0;
 
@@ -250,7 +196,6 @@
        */
       function step(item) {
         app.zoom.stepYAxis(item.pixelHeight);
-
         x = 0;
         y++;
       }
@@ -327,7 +272,26 @@
         };
     },
     
+    arrangeStopped: function(){
       
+       var removeIcon = document.getElementsByClassName('icon'); //User Finalized his/her Settings
+       for (var k = 0; k < removeIcon.length; k++) {
+              removeIcon[k].setAttribute('removeable','false');
+             }
+         document.getElementById('curtain').setAttribute('isopen','false');
+         document.getElementById('search').style.visibility = 'visible';
+         
+      var myStringArray = [];  //  Create an Empty Array for saving Current Items
+         for(var dbIndex in this.items) 
+              {
+               if(this.items[dbIndex].name == undefined)
+                 myStringArray.push("-Divider-");  
+                else
+                 myStringArray.push(this.items[dbIndex].name);
+              }
+          asyncStorage.setItem('MyHomScn',myStringArray);  // IMPORTANT --> Saving the User Data/ Icon Positioning into IndexedDB
+    },
+    
     /**
      * Launches an app.
      */
@@ -342,9 +306,74 @@
       }
       icon.launch();
     }
+    
+    
   };
 
-  exports.app = new App();
-  exports.app.init();
+    // Submitting Edit Box Fields  
+    function OnSubmit(e){
+    if (e.keyCode == 13) {
+        searchRelevant();
+        return false;
+       }
+     }
 
+    
+    function searchRelevant(){
+        // Hide Keyboard By clicking in Vague Space
+       document.getElementById("vaguesapce").click();
+      
+      var searchQuery = document.getElementById("search-input").value;
+      // If Refresh Required During any Bug Event then, just type r:m in search
+        if(searchQuery == "r:m"){
+          window.location.reload(false);
+        }else if(searchQuery.search("http")==0){       // if User Query contains http at front => A link
+          window.open(searchQuery);            
+        }else if(searchQuery.search("www.")==0){        // Else Append http if string is www 
+          window.open("http://"+searchQuery);  
+        }else // Just search what user types onto Duckduckgo
+            window.open("https://duckduckgo.com/?q="+(searchQuery.replace(/ /g,"+")), '_blank');
+              document.getElementById("search-input").value="";
+      
+      }
+  
+    function focusSearchInput(){
+     document.getElementById('search-input').focus();
+   }
+  
+         // Hides icons During User Search for unintentional launch prevention
+    function hideEverything(){
+     document.getElementById('icons').style.visibility = 'hidden';
+    }  
+  
+          // Shows them back on Search complete or cancel 
+    function showEverything(){
+     document.getElementById('icons').style.visibility = 'visible';
+    }
+
+
+
+  console.log("Waiting for DB....");
+  asyncStorage.getItem('MyHomScn',function(value){
+   if(value == null){
+     ready();
+     console.log('Loading Default Configurations...');
+   }else{
+      while(ORDER.length) {
+         ORDER.pop();
+      }
+     for( var orderIndex in value){
+          ORDER.push(value[orderIndex]);
+                                           //console.log(value[orderIndex]);
+        }
+     console.log('Loading Previously Saved Configurations...');
+     ready();
+   }       
+ });
+  
+  function ready(){
+    exports.app = new App();
+    exports.app.init();
+  }
+  
 }(window));

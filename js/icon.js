@@ -3,7 +3,6 @@
 (function(exports) {
   // Icon container
   var container = document.getElementById('icons');
-
   /**
    * Represents a single app icon on the homepage.
    */
